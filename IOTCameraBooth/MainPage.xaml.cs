@@ -22,6 +22,10 @@ using Windows.UI.Core;
 using Windows.Media;
 using Windows.Graphics.Imaging;
 using Windows.Media.MediaProperties;
+using Windows.Storage.Streams;
+using System.Diagnostics;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -36,6 +40,8 @@ namespace IOTCameraBooth
         MediaCapture mediaCapture;
         bool isPreviewing;
         DisplayRequest displayRequest = new DisplayRequest();
+        private StorageFolder captureFolder = null;
+        private CameraRotationHelper _rotationHelper;
 
 
         public MainPage()
@@ -59,6 +65,8 @@ namespace IOTCameraBooth
                 displayRequest = new DisplayRequest();
                 displayRequest.RequestActive();
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
+                var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+                captureFolder = picturesLibrary.SaveFolder ?? ApplicationData.Current.LocalFolder;
             }
             catch(UnauthorizedAccessException)
             {
@@ -154,9 +162,62 @@ namespace IOTCameraBooth
             }
         }
 
+        private async void PhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            await TakePhotoAsync();
+        }
+
+        /// <summary>
+        /// Takes a photo to a StorageFile and adds rotation metadata to it
+        /// </summary>
+        /// <returns></returns>
+        private async Task TakePhotoAsync()
+        {
+            var stream = new InMemoryRandomAccessStream();
+
+            Debug.WriteLine("Taking photo...");
+            await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), stream);
+
+            try
+            {
+                var file = await captureFolder.CreateFileAsync("SimplePhoto.jpg", CreationCollisionOption.GenerateUniqueName);
+                Debug.WriteLine("Photo taken! Saving to " + file.Path);
+
+                var photoOrientation = CameraRotationHelper.ConvertSimpleOrientationToPhotoOrientation(_rotationHelper.GetCameraCaptureOrientation());
+
+                await ReencodeAndSavePhotoAsync(stream, file, photoOrientation);
+                Debug.WriteLine("Photo saved!");
+            }
+            catch (Exception ex)
+            {
+                // File I/O errors are reported as exceptions
+                Debug.WriteLine("Exception when taking a photo: " + ex.ToString());
+            }
+        }
+
+        private static async Task ReencodeAndSavePhotoAsync(IRandomAccessStream stream, StorageFile file, PhotoOrientation photoOrientation)
+        {
+            using (var inputStream = stream)
+            {
+                var decoder = await BitmapDecoder.CreateAsync(inputStream);
+
+                using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var encoder = await BitmapEncoder.CreateForTranscodingAsync(outputStream, decoder);
+
+                    var properties = new BitmapPropertySet { { "System.Photo.Orientation", new BitmapTypedValue(photoOrientation, PropertyType.UInt16) } };
+
+                    await encoder.BitmapProperties.SetPropertiesAsync(properties);
+                    await encoder.FlushAsync();
+                }
+            }
+        }
+
+
         private void CommandInvokedHandler(IUICommand command)
         {
             throw new NotImplementedException();
         }
+
     }
 }
