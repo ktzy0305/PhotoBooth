@@ -253,7 +253,7 @@ namespace IOTCameraBooth
             PID += 1;
             var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
             StorageFile file = await myPictures.SaveFolder.CreateFileAsync("OH2019Photo_"+PID+".jpg", CreationCollisionOption.GenerateUniqueName);
-
+          
             using (var captureStream = new InMemoryRandomAccessStream())
             {
                 await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), captureStream);
