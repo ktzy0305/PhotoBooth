@@ -42,9 +42,12 @@ namespace IOTCameraBooth
         MediaCapture mediaCapture;
         bool isPreviewing;
         private StorageFolder captureFolder = null;
+        public static StorageFolder storageFolder = null;
         private CameraRotationHelper _rotationHelper;
+        //Storage
         //Global Variables
         int PID = 0;
+        public static string currentImageFileName = null;
 
         public MainPage()
         {
@@ -60,6 +63,8 @@ namespace IOTCameraBooth
             mediaCapture = new MediaCapture();
             await mediaCapture.InitializeAsync();
             mediaCapture.Failed += MediaCapture_Failed;
+            var picturesFolder = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
+            storageFolder = picturesFolder.SaveFolder;
         }
 
         private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
@@ -246,14 +251,23 @@ namespace IOTCameraBooth
             }
             TextBlockTimer.Text = "";
             TakePhotoAsyncV2();
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            this.Frame.Navigate(typeof(EditPage));
         }
 
         private async void TakePhotoAsyncV2()
         {
             PID += 1;
+            //string root = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+            //string path = root + @"\Assets";
+            //StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+            currentImageFileName = "OH2019Photo_" + PID + ".jpg";
+            //StorageFile file = await folder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
+
+            //Store in pictures folder
             var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
-            StorageFile file = await myPictures.SaveFolder.CreateFileAsync("OH2019Photo_"+PID+".jpg", CreationCollisionOption.GenerateUniqueName);
-          
+            StorageFile file = await myPictures.SaveFolder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
+
             using (var captureStream = new InMemoryRandomAccessStream())
             {
                 await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), captureStream);

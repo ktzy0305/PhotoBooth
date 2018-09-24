@@ -32,6 +32,6 @@
                 </Viewbox>
             </Button>
         </StackPanel>
-        <TextBlock x:Name="TextBlockTimer" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontFamily="HelveticaNeue" FontSize="72" FontWeight="Bold" Foreground="White"/>
+        <TextBlock x:Name="TextBlockTimer" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontFamily="HelveticaNeue" FontSize="72" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
     </Grid>
 </Page>
