@@ -36,19 +36,35 @@ namespace IOTCameraBooth
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        //Initialisation
+        //Screen Activity
+        DisplayRequest displayRequest = new DisplayRequest();
+        //Application State
         MediaCapture mediaCapture;
         bool isPreviewing;
-        DisplayRequest displayRequest = new DisplayRequest();
         private StorageFolder captureFolder = null;
         private CameraRotationHelper _rotationHelper;
-
+        //Global Variables
+        int PID = 0;
 
         public MainPage()
         {
             this.InitializeComponent();
+            InitializeApp();
             StartPreviewAsync();
             Application.Current.Suspending += Application_Suspending;
+        }
+
+
+        public async void InitializeApp()
+        {
+            mediaCapture = new MediaCapture();
+            await mediaCapture.InitializeAsync();
+            mediaCapture.Failed += MediaCapture_Failed;
+        }
+
+        private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
+        {
+            throw new NotImplementedException();
         }
 
         public MessageDialog ShowMessageToUser(string message)
@@ -150,7 +166,7 @@ namespace IOTCameraBooth
         {
             await CleanupCameraAsync();
         }
-
+        
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
             // Handle global application events only if this page is active
@@ -162,15 +178,11 @@ namespace IOTCameraBooth
             }
         }
 
-        private async void PhotoButton_Click(object sender, RoutedEventArgs e)
-        {
-            await TakePhotoAsync();
-        }
-
         /// <summary>
         /// Takes a photo to a StorageFile and adds rotation metadata to it
         /// </summary>
         /// <returns></returns>
+     
         private async Task TakePhotoAsync()
         {
             var stream = new InMemoryRandomAccessStream();
@@ -213,11 +225,51 @@ namespace IOTCameraBooth
             }
         }
 
-
         private void CommandInvokedHandler(IUICommand command)
         {
             throw new NotImplementedException();
         }
 
+        private void CameraButton_Click(object sender, RoutedEventArgs e)
+        {
+            CountDownTakePhoto();
+        }
+
+        public async void CountDownTakePhoto()
+        {
+            int cdt = 5;
+            while (cdt > 0)
+            {
+                TextBlockTimer.Text = Convert.ToString(cdt);
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                cdt -= 1;
+            }
+            TextBlockTimer.Text = "";
+            TakePhotoAsyncV2();
+        }
+
+        private async void TakePhotoAsyncV2()
+        {
+            PID += 1;
+            var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
+            StorageFile file = await myPictures.SaveFolder.CreateFileAsync("OH2019Photo_"+PID+".jpg", CreationCollisionOption.GenerateUniqueName);
+
+            using (var captureStream = new InMemoryRandomAccessStream())
+            {
+                await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), captureStream);
+
+                using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    var decoder = await BitmapDecoder.CreateAsync(captureStream);
+                    var encoder = await BitmapEncoder.CreateForTranscodingAsync(fileStream, decoder);
+
+                    var properties = new BitmapPropertySet {
+                        { "System.Photo.Orientation", new BitmapTypedValue(PhotoOrientation.Normal, PropertyType.UInt16) }
+                    };
+                    await encoder.BitmapProperties.SetPropertiesAsync(properties);
+                    await encoder.FlushAsync();
+                }
+            }
+        }
     }
 }

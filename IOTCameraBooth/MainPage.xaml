@@ -11,27 +11,27 @@
         <SolidColorBrush x:Key="TranslucentBlackBrush" Color="Black" Opacity="0.3"/>
     </Page.Resources>
     <Grid>
+        <!--Camera Preview-->
         <CaptureElement Name="PreviewControl" Stretch="Uniform"/>
-        <!-- Capture + Record buttons -->
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+        <!-- Capture Button -->
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <StackPanel.Resources>
                 <Style TargetType="Button">
-                    <Setter Property="Margin" Value="10,40"/>
+                    <Setter Property="Margin" Value="10,10"/>
                     <Setter Property="MinWidth" Value="80"/>
                     <Setter Property="MinHeight" Value="80"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background" Value="{StaticResource TranslucentBlackBrush}"/>
-                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Foreground" Value="Transparent"/>
+                    <Setter Property="Background" Value="{StaticResource SystemControlForegroundTransparentBrush}"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
                 </Style>
             </StackPanel.Resources>
-
-            <Button Name="PhotoButton" Click="PhotoButton_Click" IsEnabled="False">
-                <Viewbox MaxHeight="40" MaxWidth="40">
-                    <SymbolIcon Symbol="Camera"/>
+            <Button Name="CameraButton" Click="CameraButton_Click" >
+                <Viewbox MaxHeight="80" MaxWidth="80">
+                    <Image Source="/Assets/Buttons/CameraButton.png"/>
                 </Viewbox>
             </Button>
         </StackPanel>
+        <TextBlock x:Name="TextBlockTimer" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontFamily="HelveticaNeue" FontSize="72" FontWeight="Bold" Foreground="White"/>
     </Grid>
-
 </Page>
