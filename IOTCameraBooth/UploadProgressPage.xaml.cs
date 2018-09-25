@@ -36,7 +36,7 @@ namespace IOTCameraBooth
             imgUploadingPhoto.Source = new BitmapImage(new Uri(file.Path));
         }
 
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(EditPage));
         }

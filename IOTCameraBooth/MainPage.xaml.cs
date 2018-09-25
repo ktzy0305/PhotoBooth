@@ -261,6 +261,5 @@ namespace IOTCameraBooth
                 this.Frame.Navigate(typeof(DeveloperControlPage));
             }
         }
-
     }
 }
