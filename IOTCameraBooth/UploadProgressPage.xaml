@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="IOTCameraBooth.UploadProgressPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOTCameraBooth"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Rectangle Fill="Purple" HorizontalAlignment="Left" Height="360"  Stroke="Black" VerticalAlignment="Bottom" Width="1920"/>
+        <TextBlock x:Name="txtUploadStatus" FontSize="36" TextAlignment="Center" FontFamily="HelveticaNeue" HorizontalAlignment="Center" Margin="0,0,0,120" VerticalAlignment="Bottom" Width="300" Height="50" Text="Uploading..." FontWeight="SemiLight"/>
+        <ProgressBar HorizontalAlignment="Center" Height="50" Width="500" Margin="0,0,0,50" VerticalAlignment="Bottom"/>
+        <Image x:Name="imgUploadingPhoto" HorizontalAlignment="Center" Width="960" Height="540" Margin="0,50,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BackBtn" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="BackBtn_Click" Background="{StaticResource SystemControlForegroundTransparentBrush}">
+            <Viewbox MaxHeight="50" MaxWidth="50">
+                <Image Source="/Assets/Buttons/BackButton.png"/>
+            </Viewbox>
+        </Button>
+    </Grid>
+</Page>

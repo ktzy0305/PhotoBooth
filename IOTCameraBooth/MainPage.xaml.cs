@@ -26,6 +26,7 @@ using Windows.Storage.Streams;
 using System.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.System;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -41,13 +42,12 @@ namespace IOTCameraBooth
         //Application State
         MediaCapture mediaCapture;
         bool isPreviewing;
-        private StorageFolder captureFolder = null;
-        private CameraRotationHelper _rotationHelper;
         //Storage
-        public static StorageFolder storageFolder = null;
+        public static StorageFolder storageFolder;
         //Global Variables
-        int PID = 0;
-        public static string currentImageFileName = null;
+        public static SharedGlobals globalObject;
+        //public static int PID = 0;
+        //public static string currentImageFileName = null;
 
         public MainPage()
         {
@@ -71,9 +71,16 @@ namespace IOTCameraBooth
             }
             catch
             {
-                Debug.WriteLine("Storage folde exists");
+                Debug.WriteLine("Storage folder exists");
             }
-            storageFolder = await localFolder.GetFolderAsync("Images");
+            if (storageFolder == null)
+            {
+                storageFolder = await localFolder.GetFolderAsync("Images");
+            }
+            if(globalObject == null)
+            {
+                globalObject = new SharedGlobals();
+            }
         }
 
         private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
@@ -95,8 +102,6 @@ namespace IOTCameraBooth
                 displayRequest = new DisplayRequest();
                 displayRequest.RequestActive();
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
-                var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
-                captureFolder = picturesLibrary.SaveFolder ?? ApplicationData.Current.LocalFolder;
             }
             catch(UnauthorizedAccessException)
             {
@@ -192,53 +197,6 @@ namespace IOTCameraBooth
             }
         }
 
-        /// <summary>
-        /// Takes a photo to a StorageFile and adds rotation metadata to it
-        /// </summary>
-        /// <returns></returns>
-     
-        private async Task TakePhotoAsync()
-        {
-            var stream = new InMemoryRandomAccessStream();
-
-            Debug.WriteLine("Taking photo...");
-            await mediaCapture.CapturePhotoToStreamAsync(ImageEncodingProperties.CreateJpeg(), stream);
-
-            try
-            {
-                var file = await captureFolder.CreateFileAsync("SimplePhoto.jpg", CreationCollisionOption.GenerateUniqueName);
-                Debug.WriteLine("Photo taken! Saving to " + file.Path);
-
-                var photoOrientation = CameraRotationHelper.ConvertSimpleOrientationToPhotoOrientation(_rotationHelper.GetCameraCaptureOrientation());
-
-                await ReencodeAndSavePhotoAsync(stream, file, photoOrientation);
-                Debug.WriteLine("Photo saved!");
-            }
-            catch (Exception ex)
-            {
-                // File I/O errors are reported as exceptions
-                Debug.WriteLine("Exception when taking a photo: " + ex.ToString());
-            }
-        }
-
-        private static async Task ReencodeAndSavePhotoAsync(IRandomAccessStream stream, StorageFile file, PhotoOrientation photoOrientation)
-        {
-            using (var inputStream = stream)
-            {
-                var decoder = await BitmapDecoder.CreateAsync(inputStream);
-
-                using (var outputStream = await file.OpenAsync(FileAccessMode.ReadWrite))
-                {
-                    var encoder = await BitmapEncoder.CreateForTranscodingAsync(outputStream, decoder);
-
-                    var properties = new BitmapPropertySet { { "System.Photo.Orientation", new BitmapTypedValue(photoOrientation, PropertyType.UInt16) } };
-
-                    await encoder.BitmapProperties.SetPropertiesAsync(properties);
-                    await encoder.FlushAsync();
-                }
-            }
-        }
-
         private void CommandInvokedHandler(IUICommand command)
         {
             throw new NotImplementedException();
@@ -266,13 +224,13 @@ namespace IOTCameraBooth
 
         private async void TakePhotoAsyncV2()
         {
-            PID += 1;
+            globalObject.IncrementID();
             //string root = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
             //string path = root + @"Images\";
             //StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-            currentImageFileName = "OH2019Photo_" + PID + ".jpg";
+            globalObject.setCurrentFile("OH2019Photo_" + globalObject.getPID() + ".jpg");
             //StorageFile file = await folder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
-            StorageFile file = await storageFolder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
+            StorageFile file = await storageFolder.CreateFileAsync(globalObject.getCurrentFile(), CreationCollisionOption.GenerateUniqueName);
 
             //Store in pictures folder
             //var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
@@ -295,5 +253,14 @@ namespace IOTCameraBooth
                 }
             }
         }
+
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) && Window.Current.CoreWindow.GetKeyState(VirtualKey.F12).HasFlag(CoreVirtualKeyStates.Down))
+            {
+                this.Frame.Navigate(typeof(DeveloperControlPage));
+            }
+        }
+
     }
 }

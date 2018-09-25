@@ -22,29 +22,23 @@ namespace IOTCameraBooth
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EditPage : Page
+    public sealed partial class UploadProgressPage : Page
     {
-        public EditPage()
+        public UploadProgressPage()
         {
             this.InitializeComponent();
-            getTakenImage();
+            getUploadingImage();
         }
 
-        public async void getTakenImage()
+        public async void getUploadingImage()
         {
             StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.getCurrentFile());
-            imgViewer.Source = new BitmapImage(new Uri(file.Path));
+            imgUploadingPhoto.Source = new BitmapImage(new Uri(file.Path));
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
-            MainPage.globalObject.setCurrentFile(null);
-            this.Frame.Navigate(typeof(MainPage));
-        }
-
-        private void btnDone_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(UploadProgressPage));
+            this.Frame.Navigate(typeof(EditPage));
         }
     }
 }
