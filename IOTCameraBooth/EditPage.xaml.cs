@@ -32,9 +32,7 @@ namespace IOTCameraBooth
 
         public async void getTakenImage()
         {
-            var picturesLibrary = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
-            StorageFolder picturesFolder = picturesLibrary.SaveFolder;
-            StorageFile file = await picturesFolder.GetFileAsync(MainPage.currentImageFileName);
+            StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.currentImageFileName);
             imgViewer.Source = new BitmapImage(new Uri(file.Path));
         }
     }

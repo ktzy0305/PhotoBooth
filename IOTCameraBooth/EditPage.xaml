@@ -11,7 +11,12 @@
     <Grid>
         <Rectangle Fill="Gray" Width="200px" HorizontalAlignment="Left"/>
         <Rectangle Fill="Gray" Width="200px" HorizontalAlignment="Right"/>
-        <Image x:Name="imgViewer" HorizontalAlignment="Center" VerticalAlignment="Top" Width="1520px" Height="930px"/>
-        <Rectangle Fill="Purple" Width="1520px" Height="150px" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        <Image x:Name="imgViewer" HorizontalAlignment="Center" VerticalAlignment="Top" Width="1520px" Height="980px"/>
+        <Rectangle Fill="Purple" Width="1920" Height="100px" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button x:Name="btnBack" Content="Back" Margin="0,0,20,20" FontSize="36" FontFamily="HelveticaNeue"/>
+            <Button x:Name="btnDone" Content="Done" Margin="20,0,0,20" FontSize="36" FontFamily="HelveticaNeue"/>
+        </StackPanel>
+        
     </Grid>
 </Page>
