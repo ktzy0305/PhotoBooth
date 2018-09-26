@@ -11,7 +11,7 @@
     <Grid>
         <Rectangle Fill="Purple" HorizontalAlignment="Left" Height="360"  Stroke="Black" VerticalAlignment="Bottom" Width="1920"/>
         <Image x:Name="imgUploadedPhoto" HorizontalAlignment="Center" Width="800" Height="450" Margin="0,0,0,350" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="txtUploadStatus" FontSize="32" TextAlignment="Center" FontFamily="HelveticaNeue" HorizontalAlignment="Center" Margin="0,0,0,70" VerticalAlignment="Bottom" Width="300" Height="50" Text="Upload Complete!" FontWeight="SemiLight"/>
+        <TextBlock x:Name="txtUploadStatus" FontSize="32" TextAlignment="Center" FontFamily="HelveticaNeue" HorizontalAlignment="Center" Margin="0,0,0,70" VerticalAlignment="Bottom" Width="1000" Height="50" Text="Upload Complete! Scan the QR Code above to download the picture!" FontWeight="SemiLight"/>
         <Button x:Name="DoneBtn" Content="Done" FontFamily="HelveticaNeue" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom" Click="DoneBtn_Click" Background="Blue"></Button>
         <!--<TextBox x:Name="txtDownloadLink" TextWrapping="Wrap" FontSize="28" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,130" VerticalAlignment="Bottom" Width="1280" Height="100" IsReadOnly="True"/>-->
         <Image x:Name="imgQRCode" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,130" Width="200" Height="200"/>

@@ -13,8 +13,6 @@
         <TextBlock x:Name="txtUploadStatus" FontSize="36" TextAlignment="Center" FontFamily="HelveticaNeue" HorizontalAlignment="Center" Margin="0,0,0,120" VerticalAlignment="Bottom" Width="300" Height="50" Text="Uploading..." FontWeight="SemiLight"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Center" Height="50" Width="500" Margin="0,0,0,50" VerticalAlignment="Bottom"/>
         <Image x:Name="imgUploadingPhoto" HorizontalAlignment="Center" Width="960" Height="540" Margin="0,50,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="CancelBtn" Content="Cancel" FontFamily="HelveticaNeue" FontSize="28" Foreground="White" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="Blue">
-
-        </Button>
+        <Button x:Name="CancelBtn" Content="Cancel" FontFamily="HelveticaNeue" FontSize="28" Foreground="White" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="CancelBtn_Click" Background="Blue"></Button>
     </Grid>
 </Page>
