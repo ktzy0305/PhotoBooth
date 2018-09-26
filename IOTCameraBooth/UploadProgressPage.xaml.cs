@@ -47,17 +47,12 @@ namespace IOTCameraBooth
             var stream = File.Open(file.Path, FileMode.Open);
             var task = new FirebaseStorage("ohwall-e865f.appspot.com")
                 .Child("Media")
-                .Child(MainPage.globalObject.GetCurrentFile())
+                .Child(file.DisplayName)
                 .PutAsync(stream);
             task.Progress.ProgressChanged += (s, e) => progressBar.Value = e.Percentage;
             var downloadUrl = await task;
             MainPage.globalObject.SetDownloadURL(downloadUrl);
-            if(progressBar.Value == 100)
-            {
-                this.Frame.Navigate(typeof(UploadCompletePage));
-            }
-
-            var auth = "8qkIRcNDoQ5InGjxxhb7ax79c3WfJd0n2jyOgO70"; 
+            var auth = "8qkIRcNDoQ5InGjxxhb7ax79c3WfJd0n2jyOgO70";
             var firebaseClient = new FirebaseClient(
               "https://ohwall-e865f.firebaseio.com/",
               new FirebaseOptions
@@ -67,6 +62,10 @@ namespace IOTCameraBooth
             await firebaseClient
                 .Child("media")
                 .PostAsync(new Image(MainPage.globalObject.GetDownloadURL(),"IOTCameraBooth"));
+            if (progressBar.Value == 100)
+            {
+                this.Frame.Navigate(typeof(UploadCompletePage));
+            }
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

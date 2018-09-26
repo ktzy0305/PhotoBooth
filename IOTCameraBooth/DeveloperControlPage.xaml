@@ -11,7 +11,7 @@
     <Grid>
         <ListView x:Name="lvLocalFiles" HorizontalAlignment="Right" Height="1080" VerticalAlignment="Top" Width="600" Background="Orange"/>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20">
-            <Button x:Name="btnBackup" Content="Backup" FontFamily="HelveticaNeue" FontSize="48" MinWidth="240" Margin="0,0,0,20"/>
+            <Button x:Name="btnBackup" Content="Backup" FontFamily="HelveticaNeue" FontSize="48" MinWidth="240" Margin="0,0,0,20" Click="btnBackup_Click"/>
             <Button x:Name="btnDeleteAll" Content="Delete All" FontFamily="HelveticaNeue" FontSize="48" MinWidth="240" Margin="0,20,0,0" Click="btnDeleteAll_Click"/>
         </StackPanel>
         <Button x:Name="BackBtn" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="BackBtn_Click" Background="{StaticResource SystemControlForegroundTransparentBrush}">
