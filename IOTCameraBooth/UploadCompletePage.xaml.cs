@@ -14,7 +14,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
+using Windows.Storage.Streams;
+using ZXing.Net.Mobile;
+using ZXing.Mobile;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace IOTCameraBooth
@@ -22,29 +24,29 @@ namespace IOTCameraBooth
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EditPage : Page
+    public sealed partial class UploadCompletePage : Page
     {
-        public EditPage()
+        public UploadCompletePage()
         {
             this.InitializeComponent();
-            GetTakenImage();
+            GetUploadedImage();
         }
 
-        public async void GetTakenImage()
+        public async void GetUploadedImage()
         {
             StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
-            imgViewer.Source = new BitmapImage(new Uri(file.Path));
+            imgUploadedPhoto.Source = new BitmapImage(new Uri(file.Path));
+            //txtDownloadLink.Text = MainPage.globalObject.GetDownloadURL();
+            var write = new BarcodeWriter();
+            write.Format = ZXing.BarcodeFormat.QR_CODE;
+            imgQRCode.Source = write.Write(MainPage.globalObject.GetDownloadURL());
         }
 
-        private void btnBack_Click(object sender, RoutedEventArgs e)
+        private void DoneBtn_Click(object sender, RoutedEventArgs e)
         {
             MainPage.globalObject.SetCurrentFile(null);
-            this.Frame.Navigate(typeof(MainPage));
-        }
-
-        private void btnDone_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(UploadProgressPage));
+            MainPage.globalObject.SetDownloadURL(null);
+            this.Frame.Navigate(typeof(MainPage));            
         }
     }
 }

@@ -101,11 +101,15 @@
     <Compile Include="EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Image.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedGlobals.cs" />
+    <Compile Include="UploadCompletePage.xaml.cs">
+      <DependentUpon>UploadCompletePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UploadProgressPage.xaml.cs">
       <DependentUpon>UploadProgressPage.xaml</DependentUpon>
     </Compile>
@@ -119,7 +123,9 @@
   <ItemGroup>
     <Content Include="Assets\Buttons\BackButton.png" />
     <Content Include="Assets\Buttons\CameraButton.png" />
-    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Properties\Default.rd.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -145,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UploadCompletePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UploadProgressPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,8 +164,14 @@
     <PackageReference Include="FirebaseDatabase.net">
       <Version>3.3.3</Version>
     </PackageReference>
+    <PackageReference Include="FirebaseStorage.net">
+      <Version>1.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>2.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

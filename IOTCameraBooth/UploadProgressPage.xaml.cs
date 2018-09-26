@@ -14,6 +14,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Firebase.Database;
+using Firebase.Database.Query;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using Firebase.Storage;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,13 +32,41 @@ namespace IOTCameraBooth
         public UploadProgressPage()
         {
             this.InitializeComponent();
-            getUploadingImage();
+            GetUploadingImage();
         }
 
-        public async void getUploadingImage()
+        public async void GetUploadingImage()
         {
-            StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.getCurrentFile());
+            StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
             imgUploadingPhoto.Source = new BitmapImage(new Uri(file.Path));
+            UploadToFirebase(file);
+        }
+
+        public async void UploadToFirebase(StorageFile file)
+        {
+            var stream = File.Open(file.Path, FileMode.Open);
+            var task = new FirebaseStorage("ohwall-e865f.appspot.com")
+                .Child("Media")
+                .Child(MainPage.globalObject.GetCurrentFile())
+                .PutAsync(stream);
+            task.Progress.ProgressChanged += (s, e) => progressBar.Value = e.Percentage;
+            var downloadUrl = await task;
+            MainPage.globalObject.SetDownloadURL(downloadUrl);
+            if(progressBar.Value == 100)
+            {
+                this.Frame.Navigate(typeof(UploadCompletePage));
+            }
+
+            var auth = "8qkIRcNDoQ5InGjxxhb7ax79c3WfJd0n2jyOgO70"; 
+            var firebaseClient = new FirebaseClient(
+              "https://ohwall-e865f.firebaseio.com/",
+              new FirebaseOptions
+              {
+                  AuthTokenAsyncFactory = () => Task.FromResult(auth)
+              });
+            await firebaseClient
+                .Child("media")
+                .PostAsync(new Image(MainPage.globalObject.GetDownloadURL(),"IOTCameraBooth"));
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)

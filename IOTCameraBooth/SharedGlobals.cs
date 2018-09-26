@@ -13,16 +13,22 @@ namespace IOTCameraBooth
     public class SharedGlobals
     {
         public static int PID { get; set; }
-        public static string currentFile { get; set; }
+        public static string CurrentFile { get; set; }
+        public static string DownloadURL { get; set; }
 
         public SharedGlobals()
         {
             PID = 0;
         }
 
-        public int getPID()
+        public int GetPID()
         {
             return PID;
+        }
+
+        public void setPID(int id)
+        {
+            PID = id;
         }
 
         public void IncrementID()
@@ -30,14 +36,24 @@ namespace IOTCameraBooth
             PID += 1;
         }
 
-        public string getCurrentFile()
+        public string GetCurrentFile()
         {
-            return currentFile;
+            return CurrentFile;
         }
 
-        public void setCurrentFile(string filename)
+        public void SetCurrentFile(string filename)
         {
-            currentFile = filename;
+            CurrentFile = filename;
+        }
+
+        public string GetDownloadURL()
+        {
+            return DownloadURL;
+        }
+
+        public void SetDownloadURL(string url)
+        {
+            DownloadURL = url;
         }
     }
 }

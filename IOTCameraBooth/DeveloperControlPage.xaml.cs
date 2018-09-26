@@ -23,9 +23,29 @@ namespace IOTCameraBooth
     /// </summary>
     public sealed partial class DeveloperControlPage : Page
     {
+        List<string> imageNames = new List<string>();
+
         public DeveloperControlPage()
         {
             this.InitializeComponent();
+            LoadImageList();
+        }
+
+        public void LoadImageList()
+        {
+            DirectoryInfo directory = new DirectoryInfo(MainPage.storageFolder.Path);
+            try
+            {
+                foreach (FileInfo file in directory.GetFiles())
+                {
+                    imageNames.Add(file.Name);
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Directory is empty!");
+            }
+            RefreshLV();
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
@@ -48,6 +68,15 @@ namespace IOTCameraBooth
             {
                 Debug.WriteLine("Nothing to delete!");
             }
+            imageNames.Clear();
+            RefreshLV();
+        }
+
+
+        public void RefreshLV()
+        {
+            lvLocalFiles.ItemsSource = null;
+            lvLocalFiles.ItemsSource = imageNames;
         }
     }
 }

@@ -46,8 +46,6 @@ namespace IOTCameraBooth
         public static StorageFolder storageFolder;
         //Global Variables
         public static SharedGlobals globalObject;
-        //public static int PID = 0;
-        //public static string currentImageFileName = null;
 
         public MainPage()
         {
@@ -56,7 +54,6 @@ namespace IOTCameraBooth
             StartPreviewAsync();
             Application.Current.Suspending += Application_Suspending;
         }
-
 
         public async void InitializeApp()
         {
@@ -81,6 +78,8 @@ namespace IOTCameraBooth
             {
                 globalObject = new SharedGlobals();
             }
+            DirectoryInfo directory = new DirectoryInfo(MainPage.storageFolder.Path);
+            globalObject.setPID(directory.GetFiles().Count() + 1);
         }
 
         private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
@@ -138,9 +137,7 @@ namespace IOTCameraBooth
             {
                 var messageDialog = ShowMessageToUser("The camera preview can't be displayed because another app has exclusive access");
                 // Add commands and set their callbacks; both buttons use the same callback function instead of inline event handlers
-                messageDialog.Commands.Add(new UICommand(
-                    "Close",
-                    new UICommandInvokedHandler(this.CommandInvokedHandler)));
+                messageDialog.Commands.Add(new UICommand("Close", new UICommandInvokedHandler(this.CommandInvokedHandler)));
 
                 // Set the command to be invoked when escape is pressed
                 messageDialog.CancelCommandIndex = 0;
@@ -224,17 +221,8 @@ namespace IOTCameraBooth
 
         private async void TakePhotoAsyncV2()
         {
-            globalObject.IncrementID();
-            //string root = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-            //string path = root + @"Images\";
-            //StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-            globalObject.setCurrentFile("OH2019Photo_" + globalObject.getPID() + ".jpg");
-            //StorageFile file = await folder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
-            StorageFile file = await storageFolder.CreateFileAsync(globalObject.getCurrentFile(), CreationCollisionOption.GenerateUniqueName);
-
-            //Store in pictures folder
-            //var myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
-            //StorageFile file = await myPictures.SaveFolder.CreateFileAsync(currentImageFileName, CreationCollisionOption.GenerateUniqueName);
+            globalObject.SetCurrentFile("OH2019Photo_" + globalObject.GetPID() + ".jpg");
+            StorageFile file = await storageFolder.CreateFileAsync(globalObject.GetCurrentFile(), CreationCollisionOption.GenerateUniqueName);
 
             using (var captureStream = new InMemoryRandomAccessStream())
             {
@@ -254,6 +242,7 @@ namespace IOTCameraBooth
             }
         }
 
+        //Developer Controls
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) && Window.Current.CoreWindow.GetKeyState(VirtualKey.F12).HasFlag(CoreVirtualKeyStates.Down))
