@@ -9,11 +9,48 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Rectangle Fill="Purple" HorizontalAlignment="Left" Height="360"  Stroke="Black" VerticalAlignment="Bottom" Width="1920"/>
-        <Image x:Name="imgUploadedPhoto" HorizontalAlignment="Center" Width="800" Height="450" Margin="0,0,0,350" VerticalAlignment="Bottom"/>
-        <TextBlock x:Name="txtUploadStatus" FontSize="32" TextAlignment="Center" FontFamily="HelveticaNeue" HorizontalAlignment="Center" Margin="0,0,0,70" VerticalAlignment="Bottom" Width="1000" Height="50" Text="Upload Complete! Scan the QR Code above to download the picture!" FontWeight="SemiLight"/>
-        <Button x:Name="DoneBtn" Content="Done" FontFamily="HelveticaNeue" FontSize="28" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,20" VerticalAlignment="Bottom" Click="DoneBtn_Click" Background="Blue"></Button>
-        <!--<TextBox x:Name="txtDownloadLink" TextWrapping="Wrap" FontSize="28" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,130" VerticalAlignment="Bottom" Width="1280" Height="100" IsReadOnly="True"/>-->
-        <Image x:Name="imgQRCode" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,130" Width="200" Height="200"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Grid.Row="8" Grid.RowSpan="8" Grid.Column="0" Grid.ColumnSpan="17" Fill="Purple" Stroke="Black"/>
+        <Image x:Name="imgUploadedPhoto"  Grid.Row="1" Grid.RowSpan="14" Grid.Column="1" Grid.ColumnSpan="11"/>
+        <Image x:Name="imgQRCode" Grid.Row="2" Grid.RowSpan="5" Grid.Column="12" Grid.ColumnSpan="5" />
+        <TextBlock x:Name="txtScanToDownload" FontSize="20" TextAlignment="Center" FontFamily="HelveticaNeue" TextWrapping="Wrap" Text="Scan the QR Code above to download your photo!" Foreground="White" FontWeight="Normal" Grid.Row="8" Grid.RowSpan="1" Grid.Column="13" Grid.ColumnSpan="3"/>
+        <TextBlock x:Name="txtUploadStatus" FontSize="26" TextAlignment="Center" FontFamily="HelveticaNeue" TextWrapping="Wrap" Text="Upload Successful!" Foreground="White" FontWeight="Normal" Grid.Row="11" Grid.RowSpan="1" Grid.Column="12" Grid.ColumnSpan="5"/>
+        <Button x:Name="DoneBtn" Content="Done" FontFamily="HelveticaNeue" FontSize="40" Foreground="White" Click="DoneBtn_Click" Background="Blue" Grid.Row="12" Grid.RowSpan="2" Grid.Column="13" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,10"></Button>
     </Grid>
 </Page>
