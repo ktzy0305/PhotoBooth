@@ -18,8 +18,8 @@
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="10,10"/>
-                    <Setter Property="MinWidth" Value="80"/>
-                    <Setter Property="MinHeight" Value="80"/>
+                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="MinHeight" Value="100"/>
                     <Setter Property="Foreground" Value="Transparent"/>
                     <Setter Property="Background" Value="{StaticResource SystemControlForegroundTransparentBrush}"/>
                     <Setter Property="BorderBrush" Value="Transparent"/>
@@ -27,7 +27,7 @@
                 </Style>
             </StackPanel.Resources>
             <Button Name="CameraButton" Click="CameraButton_Click" >
-                <Viewbox MaxHeight="80" MaxWidth="80">
+                <Viewbox MaxHeight="100" MaxWidth="100">
                     <Image Source="/Assets/Buttons/CameraButton.png"/>
                 </Viewbox>
             </Button>

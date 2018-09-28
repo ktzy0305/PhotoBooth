@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,6 +26,26 @@ namespace IOTCameraBooth
         public StartScreen()
         {
             this.InitializeComponent();
+            BlinkingText();
+        }
+
+        public void BlinkingText()
+        {
+            Storyboard storyboard = new Storyboard();
+            storyboard.Duration = new Duration(TimeSpan.FromSeconds(2.0));
+            DoubleAnimation opacityAnimation = new DoubleAnimation()
+            {
+                From = 1.0,
+                To = 0.0,
+                BeginTime = TimeSpan.FromSeconds(1),
+                Duration = new Duration(TimeSpan.FromSeconds(1))
+            };
+            Storyboard.SetTarget(opacityAnimation, txtTouchAnywhere);
+            Storyboard.SetTargetProperty(opacityAnimation, "Opacity");
+            storyboard.Children.Add(opacityAnimation);
+            storyboard.RepeatBehavior = RepeatBehavior.Forever;
+            storyboard.AutoReverse = true;
+            storyboard.Begin();
         }
 
         private void screen_PointerPressed(object sender, PointerRoutedEventArgs e)
