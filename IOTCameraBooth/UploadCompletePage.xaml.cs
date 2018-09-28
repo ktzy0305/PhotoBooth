@@ -46,7 +46,7 @@ namespace IOTCameraBooth
         {
             MainPage.globalObject.SetCurrentFile(null);
             MainPage.globalObject.SetDownloadURL(null);
-            this.Frame.Navigate(typeof(MainPage));            
+            this.Frame.Navigate(typeof(StartScreen));            
         }
     }
 }

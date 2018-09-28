@@ -67,10 +67,5 @@ namespace IOTCameraBooth
                 this.Frame.Navigate(typeof(UploadCompletePage));
             }
         }
-
-        private void CancelBtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(EditPage));
-        }
     }
 }

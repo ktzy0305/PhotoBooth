@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="IOTCameraBooth.StartScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOTCameraBooth"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="screen" PointerPressed="screen_PointerPressed">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Source="/Assets/Background/collage.jpeg" Grid.Row="0" Grid.RowSpan="8" Grid.Column="0" Grid.ColumnSpan="8" Stretch="Fill"></Image>
+        <TextBlock Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="4" Text="PHOTO BOOTH" Foreground="White" FontFamily="HelveticaNeue" FontSize="64px" FontWeight="ExtraBold" TextAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="4" Text="Made using IoT" Foreground="White" FontFamily="HelveticaNeue" FontSize="26px" FontWeight="Light" TextAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Center"/>
+        <Image Source="/Assets/Background/camera.png" Grid.Row="3" Grid.RowSpan="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="40"></Image>
+        <TextBlock Grid.Row="7" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="6" Text="Touch anywhere to take a selfie!" Foreground="White" FontFamily="HelveticaNeue" FontSize="36px" TextAlignment="Center" VerticalAlignment="Top"/>
+    </Grid>
+</Page>

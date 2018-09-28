@@ -107,6 +107,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedGlobals.cs" />
+    <Compile Include="StartScreen.xaml.cs">
+      <DependentUpon>StartScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UploadCompletePage.xaml.cs">
       <DependentUpon>UploadCompletePage.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,8 @@
     <None Include="IOTCameraBooth_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Background\camera.png" />
+    <Content Include="Assets\Background\collage.jpeg" />
     <Content Include="Assets\Buttons\BackButton.png" />
     <Content Include="Assets\Buttons\CameraButton.png" />
     <Content Include="Properties\Default.rd.xml">
@@ -150,6 +155,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StartScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UploadCompletePage.xaml">
       <SubType>Designer</SubType>
