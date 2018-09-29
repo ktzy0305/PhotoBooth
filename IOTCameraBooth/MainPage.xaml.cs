@@ -27,6 +27,7 @@ using System.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.System;
+using Windows.UI.Text;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -80,7 +81,7 @@ namespace IOTCameraBooth
             }
             DirectoryInfo directory = new DirectoryInfo(MainPage.storageFolder.Path);
             globalObject.setPID(directory.GetFiles().Count() + 1);
-            TextBlockTimer.Text = "Smile to the camera!";
+            TextBlockInstructions.Text = "Smile to the camera!";
         }
 
         private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
@@ -207,6 +208,7 @@ namespace IOTCameraBooth
 
         public async void CountDownTakePhoto()
         {
+            TextBlockInstructions.Text = "";
             int cdt = 5;
             while (cdt > 0)
             {
