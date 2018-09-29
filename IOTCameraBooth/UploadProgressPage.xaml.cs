@@ -65,6 +65,7 @@ namespace IOTCameraBooth
             if (progressBar.Value == 100)
             {
                 this.Frame.Navigate(typeof(UploadCompletePage));
+                await Task.Delay(TimeSpan.FromSeconds(0.5));
             }
         }
     }

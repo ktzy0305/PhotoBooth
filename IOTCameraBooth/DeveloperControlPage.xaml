@@ -9,15 +9,27 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView x:Name="lvLocalFiles" HorizontalAlignment="Right" Height="1080" VerticalAlignment="Top" Width="600" Background="Orange"/>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="lvLocalFiles" Grid.Row="0" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="1" Background="Orange" SelectionChanged="lvLocalFiles_SelectionChanged"/>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1">
             <Button x:Name="btnBackup" Content="Backup" FontFamily="HelveticaNeue" FontSize="48" MinWidth="240" Margin="0,0,0,20" Click="btnBackup_Click"/>
             <Button x:Name="btnDeleteAll" Content="Delete All" FontFamily="HelveticaNeue" FontSize="48" MinWidth="240" Margin="0,20,0,0" Click="btnDeleteAll_Click"/>
         </StackPanel>
-        <Button x:Name="BackBtn" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Click="BackBtn_Click" Background="{StaticResource SystemControlForegroundTransparentBrush}">
+        <Button x:Name="BackBtn" Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,40,0,0" Background="{StaticResource SystemControlForegroundTransparentBrush}" Click="BackBtn_Click">
             <Viewbox MaxHeight="50" MaxWidth="50">
                 <Image Source="/Assets/Buttons/BackButton.png"/>
             </Viewbox>
         </Button>
+        <Image x:Name="imgPhoto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="100"/>
     </Grid>
 </Page>

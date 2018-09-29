@@ -125,5 +125,17 @@ namespace IOTCameraBooth
                 ShowMessageToUser("Nothing to back up.");
             }
         }
+
+        private void lvLocalFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DirectoryInfo directory = new DirectoryInfo(MainPage.storageFolder.Path);
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                if(file.Name == imageNames[lvLocalFiles.SelectedIndex])
+                {
+                    imgPhoto.Source = new BitmapImage(new Uri(file.FullName));
+                }
+            }
+        }
     }
 }

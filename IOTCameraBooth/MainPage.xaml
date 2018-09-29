@@ -11,10 +11,21 @@
         <SolidColorBrush x:Key="TranslucentBlackBrush" Color="Black" Opacity="0.3"/>
     </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
         <!--Camera Preview-->
-        <CaptureElement Name="PreviewControl" Stretch="Uniform"/>
+        <CaptureElement Name="PreviewControl" Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" Stretch="Uniform"/>
         <!-- Capture Button -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="10,10"/>
@@ -32,6 +43,6 @@
                 </Viewbox>
             </Button>
         </StackPanel>
-        <TextBlock x:Name="TextBlockTimer" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontFamily="HelveticaNeue" FontSize="72" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
+        <TextBlock x:Name="TextBlockTimer"  TextWrapping="Wrap" Text="" FontFamily="HelveticaNeue" FontSize="72" FontWeight="Bold" Foreground="White" TextAlignment="Center" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="3"/>
     </Grid>
 </Page>

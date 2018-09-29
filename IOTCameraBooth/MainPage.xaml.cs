@@ -80,6 +80,7 @@ namespace IOTCameraBooth
             }
             DirectoryInfo directory = new DirectoryInfo(MainPage.storageFolder.Path);
             globalObject.setPID(directory.GetFiles().Count() + 1);
+            TextBlockTimer.Text = "Smile to the camera!";
         }
 
         private void MediaCapture_Failed(MediaCapture sender, MediaCaptureFailedEventArgs errorEventArgs)
