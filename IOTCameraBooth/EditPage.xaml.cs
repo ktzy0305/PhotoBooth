@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -24,11 +25,32 @@ namespace IOTCameraBooth
     /// </summary>
     public sealed partial class EditPage : Page
     {
+        public List<ImageSource> Props = new List<ImageSource>();
+        public List<Image> PropsImage = new List<Image>();
+
         public EditPage()
         {
             this.InitializeComponent();
             GetTakenImage();
+            LoadProps();
         }
+
+        public void LoadProps()
+        {
+            DirectoryInfo directory = new DirectoryInfo("../AppX/Assets/Props");
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                Props.Add(new BitmapImage(new Uri(file.FullName)));
+            }
+            RefreshProps();
+        }
+
+        public void RefreshProps()
+        {
+            lvProps.ItemsSource = null;
+            lvProps.ItemsSource = Props;
+        }
+
 
         public async void GetTakenImage()
         {
