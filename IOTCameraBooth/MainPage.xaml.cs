@@ -224,7 +224,7 @@ namespace IOTCameraBooth
 
         private async void TakePhotoAsyncV2()
         {
-            globalObject.SetCurrentFile("OH2019Photo_" + globalObject.GetPID() + ".jpg");
+            globalObject.SetCurrentFile(globalObject.GetPID()+"-OH2019Photo.jpg");
             StorageFile file = await storageFolder.CreateFileAsync(globalObject.GetCurrentFile(), CreationCollisionOption.GenerateUniqueName);
 
             using (var captureStream = new InMemoryRandomAccessStream())

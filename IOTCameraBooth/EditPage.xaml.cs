@@ -26,7 +26,7 @@ namespace IOTCameraBooth
     public sealed partial class EditPage : Page
     {
         public List<ImageSource> Props = new List<ImageSource>();
-        public List<Image> PropsImage = new List<Image>();
+        public List<ImageSource> Stickers = new List<ImageSource>();
 
         public EditPage()
         {
@@ -37,20 +37,19 @@ namespace IOTCameraBooth
 
         public void LoadProps()
         {
+            Props.Clear();
             DirectoryInfo directory = new DirectoryInfo("../AppX/Assets/Props");
             foreach (FileInfo file in directory.GetFiles())
             {
                 Props.Add(new BitmapImage(new Uri(file.FullName)));
             }
-            RefreshProps();
         }
 
-        public void RefreshProps()
+        public void LoadStickers()
         {
-            lvProps.ItemsSource = null;
-            lvProps.ItemsSource = Props;
-        }
+            Stickers.Clear();
 
+        }
 
         public async void GetTakenImage()
         {
