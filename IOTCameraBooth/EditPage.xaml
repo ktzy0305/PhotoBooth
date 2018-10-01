@@ -34,8 +34,8 @@
         </Grid.ColumnDefinitions>
         <ListView ItemsSource="{x:Bind Props}" x:Name="lvProps" Background="DimGray" Grid.Row="0" Grid.RowSpan="10" Grid.Column="0" Grid.ColumnSpan="1">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="BitmapImage">
-                    <Image Width="120" Height="120" Source="{x:Bind }" Stretch="UniformToFill" Margin="10,10,10,10" CanDrag="True"/>
+                <DataTemplate x:DataType="BitmapImage" >
+                    <Image Name="sourceProp" Width="120" Height="120" Source="{x:Bind }" Stretch="UniformToFill" Margin="10,10,10,10" CanDrag="True"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

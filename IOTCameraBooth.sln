@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOTCameraBooth", "IOTCamera
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{081ED350-FE58-451F-A324-A09702AECF08}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCVBridge", "OpenCVBridge\OpenCVBridge.vcxproj", "{EF3BA467-BA06-4374-8A29-04A4FB600A45}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -37,18 +35,6 @@ Global
 		{F8DCD7E2-D19A-493E-8637-742B717E434A}.Release|x86.ActiveCfg = Release|x86
 		{F8DCD7E2-D19A-493E-8637-742B717E434A}.Release|x86.Build.0 = Release|x86
 		{F8DCD7E2-D19A-493E-8637-742B717E434A}.Release|x86.Deploy.0 = Release|x86
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|ARM.ActiveCfg = Debug|ARM
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|ARM.Build.0 = Debug|ARM
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|x64.ActiveCfg = Debug|x64
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|x64.Build.0 = Debug|x64
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|x86.ActiveCfg = Debug|Win32
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Debug|x86.Build.0 = Debug|Win32
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|ARM.ActiveCfg = Release|ARM
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|ARM.Build.0 = Release|ARM
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|x64.ActiveCfg = Release|x64
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|x64.Build.0 = Release|x64
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|x86.ActiveCfg = Release|Win32
-		{EF3BA467-BA06-4374-8A29-04A4FB600A45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

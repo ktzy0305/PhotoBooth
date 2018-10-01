@@ -49,7 +49,6 @@ namespace IOTCameraBooth
         public void LoadStickers()
         {
             Stickers.Clear();
-
         }
 
         public async void GetTakenImage()
@@ -78,10 +77,10 @@ namespace IOTCameraBooth
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                var items = await e.DataView.GetStorageItemsAsync();
-                if (items.Count > 0)
+                var props = await e.DataView.GetStorageItemsAsync();
+                if (props.Count > 0)
                 {
-                    var storageFile = items[0] as StorageFile;
+                    var storageFile = props[0] as StorageFile;
                     var bitmapImage = new BitmapImage();
                     bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
                     // Set the image on the main page to the dropped image
