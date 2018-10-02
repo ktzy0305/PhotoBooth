@@ -28,6 +28,7 @@ namespace IOTCameraBooth
     {
         public List<ImageSource> Props = new List<ImageSource>();
         public List<ImageSource> Stickers = new List<ImageSource>();
+        public List<ImageSource> Edits = new List<ImageSource>();
 
         public EditPage()
         {
@@ -77,16 +78,24 @@ namespace IOTCameraBooth
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                var props = await e.DataView.GetStorageItemsAsync();
-                if (props.Count > 0)
+                var storageItems = await e.DataView.GetStorageItemsAsync();
+
+                foreach (StorageFile storageItem in storageItems)
                 {
-                    var storageFile = props[0] as StorageFile;
                     var bitmapImage = new BitmapImage();
-                    bitmapImage.SetSource(await storageFile.OpenAsync(FileAccessMode.Read));
-                    // Set the image on the main page to the dropped image
-                    imgViewer.Source = bitmapImage;
+                    await bitmapImage.SetSourceAsync(await storageItem.OpenReadAsync());
+
+                    this.Edits.Add(bitmapImage);
                 }
             }
+
+        }
+
+        private void lvProps_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            var items = string.Join(",", e.Items.Cast<BitmapImage>().Select(i => i.UriSource));
+            e.Data.SetText(items);
+            e.Data.RequestedOperation = DataPackageOperation.Move;
         }
     }
 }
