@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +10,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +38,9 @@ namespace IOTCameraBooth
             this.InitializeComponent();
             GetTakenImage();
             LoadProps();
+            inkCanvas.InkPresenter.InputDeviceTypes  = Windows.UI.Core.CoreInputDeviceTypes.Mouse | 
+                Windows.UI.Core.CoreInputDeviceTypes.Pen |
+                Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
 
         public void LoadProps()
@@ -64,19 +70,39 @@ namespace IOTCameraBooth
             this.Frame.Navigate(typeof(MainPage));
         }
 
-        private void btnDone_Click(object sender, RoutedEventArgs e)
+        private async void btnDone_Click(object sender, RoutedEventArgs e)
         {
+            CanvasDevice device = CanvasDevice.GetSharedDevice();
+            CanvasRenderTarget renderTarget = new CanvasRenderTarget(device, (int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight, 96);
+            renderTarget.SetPixelBytes(new byte[(int)inkCanvas.ActualWidth * 4 * (int)inkCanvas.ActualHeight]);
+            using (var ds = renderTarget.CreateDrawingSession())
+            {
+                IReadOnlyList<InkStroke> inklist = inkCanvas.InkPresenter.StrokeContainer.GetStrokes();
+
+                Debug.WriteLine("Ink_Strokes Count:  " + inklist.Count);
+                ds.DrawInk(inklist);
+            }
+            var inkpixel = renderTarget.GetPixelBytes();
+            WriteableBitmap bmp = new WriteableBitmap((int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight);
+            Stream s = bmp.PixelBuffer.AsStream();
+            s.Seek(0, SeekOrigin.Begin);
+            s.Write(inkpixel, 0, (int)inkCanvas.ActualWidth * 4 * (int)inkCanvas.ActualHeight);
+
+            //WriteableBitmap ink_wb = await ImageProcessing.ResizeByDecoderAsync(bmp, sourceImage.PixelWidth, sourceImage.PixelHeight, true);
+
+            //WriteableBitmap combine_wb = await ImageProcessing.CombineAsync(sourceImage, ink_wb);
+
             this.Frame.Navigate(typeof(UploadProgressPage));
         }
 
-        private void imgViewer_DragOver(object sender, DragEventArgs e)
+        private void inkCanvas_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
         }
 
-        private async void imgViewer_Drop(object sender, DragEventArgs e)
+        private async void inkCanvas_Drop(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.Bitmap))
             {
                 var storageItems = await e.DataView.GetStorageItemsAsync();
 
@@ -84,18 +110,9 @@ namespace IOTCameraBooth
                 {
                     var bitmapImage = new BitmapImage();
                     await bitmapImage.SetSourceAsync(await storageItem.OpenReadAsync());
-
-                    this.Edits.Add(bitmapImage);
+                    Edits.Add(bitmapImage);
                 }
             }
-
-        }
-
-        private void lvProps_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
-        {
-            var items = string.Join(",", e.Items.Cast<BitmapImage>().Select(i => i.UriSource));
-            e.Data.SetText(items);
-            e.Data.RequestedOperation = DataPackageOperation.Move;
         }
     }
 }
