@@ -19,6 +19,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.FileProperties;
+using Windows.Storage.Streams;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -70,28 +74,8 @@ namespace IOTCameraBooth
             this.Frame.Navigate(typeof(MainPage));
         }
 
-        private async void btnDone_Click(object sender, RoutedEventArgs e)
+        private void btnDone_Click(object sender, RoutedEventArgs e)
         {
-            CanvasDevice device = CanvasDevice.GetSharedDevice();
-            CanvasRenderTarget renderTarget = new CanvasRenderTarget(device, (int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight, 96);
-            renderTarget.SetPixelBytes(new byte[(int)inkCanvas.ActualWidth * 4 * (int)inkCanvas.ActualHeight]);
-            using (var ds = renderTarget.CreateDrawingSession())
-            {
-                IReadOnlyList<InkStroke> inklist = inkCanvas.InkPresenter.StrokeContainer.GetStrokes();
-
-                Debug.WriteLine("Ink_Strokes Count:  " + inklist.Count);
-                ds.DrawInk(inklist);
-            }
-            var inkpixel = renderTarget.GetPixelBytes();
-            WriteableBitmap bmp = new WriteableBitmap((int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight);
-            Stream s = bmp.PixelBuffer.AsStream();
-            s.Seek(0, SeekOrigin.Begin);
-            s.Write(inkpixel, 0, (int)inkCanvas.ActualWidth * 4 * (int)inkCanvas.ActualHeight);
-
-            //WriteableBitmap ink_wb = await ImageProcessing.ResizeByDecoderAsync(bmp, sourceImage.PixelWidth, sourceImage.PixelHeight, true);
-
-            //WriteableBitmap combine_wb = await ImageProcessing.CombineAsync(sourceImage, ink_wb);
-
             this.Frame.Navigate(typeof(UploadProgressPage));
         }
 
