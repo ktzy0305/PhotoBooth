@@ -212,13 +212,16 @@ namespace IOTCameraBooth
             int cdt = 5;
             while (cdt > 0)
             {
+                if (cdt == 1)
+                {
+                    TakePhotoAsyncV2();
+                }
                 TextBlockTimer.Text = Convert.ToString(cdt);
                 await Task.Delay(TimeSpan.FromSeconds(1));
                 cdt -= 1;
             }
             TextBlockTimer.Text = "";
-            TakePhotoAsyncV2();
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            await Task.Delay(TimeSpan.FromSeconds(0.2));
             this.Frame.Navigate(typeof(EditPage));
         }
 
