@@ -65,7 +65,18 @@ namespace IOTCameraBooth
         public async void GetTakenImage()
         {
             StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
-            imgViewer.Source = new BitmapImage(new Uri(file.Path));
+            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+            WriteableBitmap image = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
+            image.SetSource(stream);
+            FileInfo stickerFile = new FileInfo("../AppX/Assets/Stickers/StickerPlaceHolder.png");
+            StorageFile sticker = await StorageFile.GetFileFromPathAsync(stickerFile.FullName);
+            IRandomAccessStream stream2 = await sticker.OpenAsync(FileAccessMode.Read);
+            BitmapDecoder decoder2 = await BitmapDecoder.CreateAsync(stream2);
+            WriteableBitmap image2 = new WriteableBitmap((int)decoder2.PixelWidth, (int)decoder2.PixelHeight);
+            image.Blit(new Rect(0, 0, image.PixelWidth, image.PixelHeight), image2, new Rect(0, 0, image2.PixelWidth, image2.PixelHeight));
+            //imgViewer.Source = new BitmapImage(new Uri(file.Path));
+            imgViewer.Source = image;
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -86,10 +97,10 @@ namespace IOTCameraBooth
 
         private async void inkCanvas_Drop(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.Bitmap))
+            //DataPackageView d = e.DataView;
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 var storageItems = await e.DataView.GetStorageItemsAsync();
-
                 foreach (StorageFile storageItem in storageItems)
                 {
                     var bitmapImage = new BitmapImage();
