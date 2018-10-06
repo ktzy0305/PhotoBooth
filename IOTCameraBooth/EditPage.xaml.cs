@@ -73,9 +73,6 @@ namespace IOTCameraBooth
             {
                 Props.Add(new BitmapImage(new Uri(file.FullName)));
             }
-            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse |
-            Windows.UI.Core.CoreInputDeviceTypes.Pen |
-            Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
 
         public void LoadStickers()
@@ -194,12 +191,12 @@ namespace IOTCameraBooth
             this.Frame.Navigate(typeof(UploadProgressPage));
         }
 
-        private void inkCanvas_DragOver(object sender, DragEventArgs e)
+        private void canvas_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
         }
 
-        private async void inkCanvas_Drop(object sender, DragEventArgs e)
+        private async void canvas_Drop(object sender, DragEventArgs e)
         {
             //DataPackageView d = e.DataView;
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
