@@ -34,7 +34,7 @@ namespace IOTCameraBooth
 
         public async void GetUploadedImage()
         {
-            StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
+            StorageFile file = await EditPage.editsFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
             imgUploadedPhoto.Source = new BitmapImage(new Uri(file.Path));
             var write = new BarcodeWriter();
             write.Format = ZXing.BarcodeFormat.QR_CODE;

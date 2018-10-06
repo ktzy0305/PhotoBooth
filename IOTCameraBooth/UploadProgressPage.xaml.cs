@@ -37,7 +37,7 @@ namespace IOTCameraBooth
 
         public async void GetUploadingImage()
         {
-            StorageFile file = await MainPage.storageFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
+            StorageFile file = await EditPage.editsFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
             imgUploadingPhoto.Source = new BitmapImage(new Uri(file.Path));
             await Task.Delay(TimeSpan.FromSeconds(0.1));
             UploadToFirebase(file);
