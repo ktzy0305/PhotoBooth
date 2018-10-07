@@ -33,7 +33,7 @@ namespace IOTCameraBooth
     /// </summary>
     public sealed partial class EditPage : Page
     {
-        public List<ImageSource> Props = new List<ImageSource>();
+        public List<Prop> Props = new List<Prop>();
         public List<ImageSource> Stickers = new List<ImageSource>();
         public List<ImageSource> Edits = new List<ImageSource>();
 
@@ -68,10 +68,12 @@ namespace IOTCameraBooth
         public void LoadProps()
         {
             Props.Clear();
+            int i = 1;
             DirectoryInfo directory = new DirectoryInfo("../AppX/Assets/Props");
             foreach (FileInfo file in directory.GetFiles())
             {
-                Props.Add(new BitmapImage(new Uri(file.FullName)));
+                Props.Add(new Prop(i, new BitmapImage(new Uri(file.FullName))));
+                i += 1;
             }
         }
 
@@ -209,6 +211,13 @@ namespace IOTCameraBooth
                     Edits.Add(bitmapImage);
                 }
             }
+        }
+
+        private void lvProps_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            var items = string.Join(",", e.Items.Cast<Prop>().Select(i => i.id));
+            e.Data.SetText(items);
+            e.Data.RequestedOperation = DataPackageOperation.Move;
         }
     }
 }

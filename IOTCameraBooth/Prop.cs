@@ -9,12 +9,12 @@ namespace IOTCameraBooth
 {
     public class Prop
     {
-        public int layer { get; set; }
+        public int id { get; set; }
         public ImageSource emoji { get; set; }
 
-        public Prop(int l, ImageSource em)
+        public Prop(int i, ImageSource em)
         {
-            layer = l;
+            id = i;
             emoji = em;
         }
     }

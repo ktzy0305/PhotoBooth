@@ -33,10 +33,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{x:Bind Props}" x:Name="lvProps" Background="DimGray" Grid.Row="0" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="1" >
+        <ListView ItemsSource="{x:Bind Props}" x:Name="lvProps" Background="DimGray" Grid.Row="0" Grid.RowSpan="11" Grid.Column="0" Grid.ColumnSpan="1" CanDragItems="True" DragItemsStarting="lvProps_DragItemsStarting" >
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="BitmapImage" >
-                    <Image Name="sourceProp" Width="110" Height="110" Source="{x:Bind }" Margin="10" Stretch="UniformToFill" HorizontalAlignment="Center" CanDrag="True"/>
+                <DataTemplate x:DataType="local:Prop" >
+                    <Image Width="110" Height="110" Source="{x:Bind emoji}" Margin="10" Stretch="UniformToFill" HorizontalAlignment="Center"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
