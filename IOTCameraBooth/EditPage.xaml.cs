@@ -23,6 +23,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -218,6 +219,37 @@ namespace IOTCameraBooth
             var items = string.Join(",", e.Items.Cast<Prop>().Select(i => i.id));
             e.Data.SetText(items);
             e.Data.RequestedOperation = DataPackageOperation.Move;
+        }
+
+        private void dropEmojiList_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.Text))
+            {
+                e.AcceptedOperation = DataPackageOperation.Move;
+            }
+        }
+
+        private async void dropEmojiList_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.Text))
+            {
+                var id = await e.DataView.GetTextAsync();
+                var itemIdsToMove = id.Split(',');
+
+                var destinationListView = sender as ListView;
+                var listViewItemsSource = destinationListView?.ItemsSource as ObservableCollection<Prop>;
+
+                if (listViewItemsSource != null)
+                {
+                    foreach (var itemId in itemIdsToMove)
+                    {
+                        var itemToMove = this.Props.First(i => i.id.ToString() == itemId);
+
+                        listViewItemsSource.Add(itemToMove);
+                        this.Props.Remove(itemToMove);
+                    }
+                }
+            }
         }
     }
 }
