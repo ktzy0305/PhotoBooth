@@ -216,8 +216,8 @@ namespace IOTCameraBooth
 
         private void lvProps_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-            var items = string.Join(",", e.Items.Cast<Prop>().Select(i => i.id));
-            e.Data.SetText(items);
+            var id = e.Items.Cast<Prop>().Select(i => i.id).ToString();
+            e.Data.SetText(id);
             e.Data.RequestedOperation = DataPackageOperation.Move;
         }
 
@@ -234,21 +234,7 @@ namespace IOTCameraBooth
             if (e.DataView.Contains(StandardDataFormats.Text))
             {
                 var id = await e.DataView.GetTextAsync();
-                var itemIdsToMove = id.Split(',');
-
-                var destinationListView = sender as ListView;
-                var listViewItemsSource = destinationListView?.ItemsSource as ObservableCollection<Prop>;
-
-                if (listViewItemsSource != null)
-                {
-                    foreach (var itemId in itemIdsToMove)
-                    {
-                        var itemToMove = this.Props.First(i => i.id.ToString() == itemId);
-
-                        listViewItemsSource.Add(itemToMove);
-                        this.Props.Remove(itemToMove);
-                    }
-                }
+                //Edits.Add(Props[Convert.ToInt32(id)].emoji);
             }
         }
     }
