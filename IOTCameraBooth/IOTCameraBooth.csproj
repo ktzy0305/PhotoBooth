@@ -237,6 +237,8 @@
     <Content Include="Assets\Props\paperclip.png" />
     <Content Include="Assets\Props\pen.png" />
     <Content Include="Assets\Props\pencil.png" />
+    <Content Include="Assets\Stickers\Placeholder.png" />
+    <Content Include="Assets\Stickers\StickerPlaceHolder.png" />
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
     </Content>

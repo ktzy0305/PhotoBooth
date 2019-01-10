@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Storage.Streams;
 using ZXing.Net.Mobile;
 using ZXing.Mobile;
+using ZXing.QrCode;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace IOTCameraBooth
@@ -36,8 +37,15 @@ namespace IOTCameraBooth
         {
             StorageFile file = await EditPage.editsFolder.GetFileAsync(MainPage.globalObject.GetCurrentFile());
             imgUploadedPhoto.Source = new BitmapImage(new Uri(file.Path));
-            var write = new BarcodeWriter();
-            write.Format = ZXing.BarcodeFormat.QR_CODE;
+            var write = new BarcodeWriter
+            {
+                Format = ZXing.BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Width = 400,
+                    Height = 400
+                }
+            };
             imgQRCode.Source = write.Write(MainPage.globalObject.GetDownloadURL());
         }
 

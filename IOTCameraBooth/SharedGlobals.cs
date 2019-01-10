@@ -15,6 +15,7 @@ namespace IOTCameraBooth
         public static int PID { get; set; }
         public static string CurrentFile { get; set; }
         public static string DownloadURL { get; set; }
+        public static List<Prop> Props = new List<Prop>();
 
         public SharedGlobals()
         {

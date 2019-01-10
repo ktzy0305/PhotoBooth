@@ -75,7 +75,7 @@ namespace IOTCameraBooth
             {
                 storageFolder = await localFolder.GetFolderAsync("Images");
             }
-            if(globalObject == null)
+            if (globalObject == null)
             {
                 globalObject = new SharedGlobals();
             }
@@ -103,8 +103,12 @@ namespace IOTCameraBooth
                 displayRequest = new DisplayRequest();
                 displayRequest.RequestActive();
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
+                // get available resolutions (Not recommended unless your current camera stream is not at its maximum resolution)
+                //var resolutions = mediaCapture.VideoDeviceController.GetAvailableMediaStreamProperties(MediaStreamType.Photo).ToList();
+                // set used resolution (Set a breakpoint here and read the resolution of each media stream then set to the one you want below)
+                //await mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.Photo, resolutions[1]);
             }
-            catch(UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 var messageDialog = ShowMessageToUser("No camera found.");
 
@@ -127,7 +131,7 @@ namespace IOTCameraBooth
                 await mediaCapture.StartPreviewAsync();
                 isPreviewing = true;
             }
-            catch(System.IO.FileLoadException)
+            catch (System.IO.FileLoadException)
             {
                 mediaCapture.CaptureDeviceExclusiveControlStatusChanged += _mediaCapture_CaptureDeviceExclusiveControlStatusChanged;
             }
@@ -184,7 +188,7 @@ namespace IOTCameraBooth
         {
             await CleanupCameraAsync();
         }
-        
+
         private async void Application_Suspending(object sender, SuspendingEventArgs e)
         {
             // Handle global application events only if this page is active
@@ -203,6 +207,8 @@ namespace IOTCameraBooth
 
         private void CameraButton_Click(object sender, RoutedEventArgs e)
         {
+            CameraButton.IsEnabled = false;
+            CameraButton.Opacity = 0;
             CountDownTakePhoto();
         }
 
@@ -224,7 +230,7 @@ namespace IOTCameraBooth
 
         private async void TakePhotoAsyncV2()
         {
-            globalObject.SetCurrentFile(globalObject.GetPID().ToString("0000")+"-OH2019OriginalPhoto.jpg");
+            globalObject.SetCurrentFile(globalObject.GetPID().ToString("0000") + "-OH2019OriginalPhoto.jpg");
             StorageFile file = await storageFolder.CreateFileAsync(globalObject.GetCurrentFile(), CreationCollisionOption.GenerateUniqueName);
 
             using (var captureStream = new InMemoryRandomAccessStream())

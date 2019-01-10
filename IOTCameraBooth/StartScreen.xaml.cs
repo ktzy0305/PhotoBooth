@@ -27,6 +27,20 @@ namespace IOTCameraBooth
         {
             this.InitializeComponent();
             BlinkingText();
+            LoadProps();
+        }
+
+        public void LoadProps()
+        {
+            SharedGlobals.Props.Clear();
+            int i = 0;
+            DirectoryInfo directory = new DirectoryInfo("../AppX/Assets/Props");
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                //Props.Add(new Prop(i, new BitmapImage(new Uri(file.FullName))));
+                SharedGlobals.Props.Add(new Prop(i, file.FullName));
+                i += 1;
+            }
         }
 
         public void BlinkingText()
