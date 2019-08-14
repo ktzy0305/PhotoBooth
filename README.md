@@ -1,2 +1,5 @@
-# BrokenCamera AKA IOTCameraBooth
-A camera booth app for Ngee Ann Polytechnic's School of Infocomm Technology Open House 2019 that has filters, frames and virtual props. Once the photo is taken and edited, it is uploaded to FireBase.
+# PhotoBooth
+A photo booth Universal Windows application for Ngee Ann Polytechnic's School of Infocomm Technology Open House 2019.
+### Features
+1. Virtual Props
+2. QR Code Image Download  
